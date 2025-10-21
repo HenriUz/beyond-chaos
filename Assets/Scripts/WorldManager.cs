@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -56,6 +57,10 @@ public class WorldManager : MonoBehaviour {
 
     public void SetEnemyDead(int index) {
         _enemiesAlive[index] = false;
+    }
+
+    public bool AreAllDead() {
+        return _enemiesAlive.All(state => !state);
     }
     
     /* Player's functions. */
