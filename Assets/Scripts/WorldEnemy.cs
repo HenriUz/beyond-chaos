@@ -9,6 +9,6 @@ public class WorldEnemy : MonoBehaviour {
         
         world.SetPlayerPosition(other.transform.position);
         world.SetEnemyDead(index);
-        SceneManager.LoadScene("Scenes/Test");
+        SceneManager.LoadScene("Scenes/CombatScene");
     }
 }
