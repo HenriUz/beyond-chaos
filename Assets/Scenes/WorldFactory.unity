@@ -152,6 +152,55 @@ Transform:
   - {fileID: 632762084}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &35232578
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 35232580}
+  - component: {fileID: 35232579}
+  m_Layer: 0
+  m_Name: Persistent UI
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &35232579
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 35232578}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8dcbb3bcc18609978817e52ae013c34f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Dialogue.DialogueManager
+  dialoguePanel: {fileID: 1636405996}
+  dialogueText: {fileID: 1526255840}
+  nameText: {fileID: 1150421448}
+  portraitImage: {fileID: 585734672}
+--- !u!4 &35232580
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 35232578}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 50573029}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &50573025
 GameObject:
   m_ObjectHideFlags: 0
@@ -165,7 +214,7 @@ GameObject:
   - component: {fileID: 50573027}
   - component: {fileID: 50573026}
   m_Layer: 5
-  m_Name: UI
+  m_Name: Dialogue UI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -247,7 +296,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1636405997}
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 35232580}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -519,8 +568,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1200637388}
-        m_TargetAssemblyTypeName: ExitFactory, Assembly-CSharp
+      - m_Target: {fileID: 35232579}
+        m_TargetAssemblyTypeName: Dialogue.DialogueManager, Assembly-CSharp
         m_MethodName: EndDialogue
         m_Mode: 1
         m_Arguments:
@@ -1210,10 +1259,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ExitFactory
   dialogueData: {fileID: 11400000, guid: 5f107fa4a6a000d92976c3682f38f5f8, type: 2}
-  dialoguePanel: {fileID: 1636405996}
-  dialogueText: {fileID: 1526255840}
-  nameText: {fileID: 1150421448}
-  portraitImage: {fileID: 585734672}
 --- !u!1 &1257522288
 GameObject:
   m_ObjectHideFlags: 0
@@ -51237,10 +51282,10 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 1796716115}
+  - {fileID: 35232580}
   - {fileID: 17466122}
   - {fileID: 226821729}
   - {fileID: 1041495906}
   - {fileID: 1257522289}
   - {fileID: 1200637387}
-  - {fileID: 50573029}
   - {fileID: 523991969}
