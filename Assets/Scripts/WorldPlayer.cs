@@ -6,16 +6,13 @@ public class WorldPlayer : MonoBehaviour {
 
     private Vector2 _direction;
     [SerializeField] private float speed;
-
-    private WorldManager _worldManager;
     
     private void Awake() {
         _rigidbody = GetComponent<Rigidbody2D>();
     }
 
     private void Start() {
-        _worldManager = FindFirstObjectByType<WorldManager>();
-        transform.position = _worldManager.GetPlayerPosition();
+        transform.position = WorldManager.Instance.PlayerPosition;
     }
     
     private void FixedUpdate() {
@@ -27,6 +24,10 @@ public class WorldPlayer : MonoBehaviour {
     }
     
     private void Move() {
-        _rigidbody.linearVelocity = _direction * (speed * Time.deltaTime);
+        if (PauseManager.IsGamePaused) {
+            _rigidbody.linearVelocity = Vector2.zero;
+        } else {
+            _rigidbody.linearVelocity = _direction * (speed * Time.deltaTime);
+        }
     }
 }

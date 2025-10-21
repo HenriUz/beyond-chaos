@@ -5,8 +5,6 @@ using UnityEngine.SceneManagement;
 public class BattleHandler : MonoBehaviour {
     private State _state;
     private static BattleHandler _instance;
-
-    private WorldManager _worldManager;
     
     [SerializeField] private Transform pfCharacterBattle;
     public Sprite playerSprite;
@@ -29,8 +27,6 @@ public class BattleHandler : MonoBehaviour {
     }
     
     private void Start() {
-        _worldManager = FindFirstObjectByType<WorldManager>();
-        
         _playerCharacterBattle = SpawnCharacter(true);
         _enemyCharacterBattle = SpawnCharacter(false);       
 
@@ -49,7 +45,7 @@ public class BattleHandler : MonoBehaviour {
 
         var characterTransform = Instantiate(pfCharacterBattle, position, Quaternion.identity);
         var characterBattle = characterTransform.GetComponent<CharacterBattle>();
-        characterBattle.Setup(isPlayerTeam, _worldManager.GetPlayerLife());
+        characterBattle.Setup(isPlayerTeam, WorldManager.Instance.PlayerLife);
         return characterBattle;
     }
     
@@ -95,7 +91,7 @@ public class BattleHandler : MonoBehaviour {
         if (!_enemyCharacterBattle.IsDead()) return false;
         
         Debug.Log("Player Wins!");
-        _worldManager.SetPlayerLife(_playerCharacterBattle.GetLife());
+        WorldManager.Instance.DamagePlayer(_playerCharacterBattle.GetLife());
         SceneManager.LoadScene("Scenes/WorldFactory");
         return true;
     }

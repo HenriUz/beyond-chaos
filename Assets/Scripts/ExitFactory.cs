@@ -4,8 +4,6 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class ExitFactory : MonoBehaviour {
-    private WorldManager _worldManager;
-
     [SerializeField] private NpcDialogue dialogueData;
     [SerializeField] private GameObject dialoguePanel;
     [SerializeField] private TMP_Text dialogueText, nameText;
@@ -13,13 +11,9 @@ public class ExitFactory : MonoBehaviour {
     
     private int _dialogueIndex;
     private bool _isTyping, _isDialogueActive;
-    
-    private void Start() {
-        _worldManager = FindFirstObjectByType<WorldManager>();
-    }
 
     private void OnCollisionEnter2D(Collision2D other) {
-        if (_worldManager.AreAllDead()) {
+        if (WorldManager.Instance.AreAllDead()) {
             // LoadScene
         }
 
@@ -35,7 +29,7 @@ public class ExitFactory : MonoBehaviour {
     }
 
     private void Interact() {
-        if (dialogueData == null || _isDialogueActive) return;
+        if (dialogueData == null || (PauseManager.IsGamePaused && !_isDialogueActive)) return;
 
         if (_isDialogueActive) {
             NextLine();
@@ -54,6 +48,7 @@ public class ExitFactory : MonoBehaviour {
         portraitImage.sprite = dialogueData.npcPortrait;
 
         dialoguePanel.SetActive(true);
+        PauseManager.SetPause(true);
         
         StartCoroutine(TypeLine());
     }
@@ -94,5 +89,6 @@ public class ExitFactory : MonoBehaviour {
         _isDialogueActive = false;
         dialogueText.SetText("");
         dialoguePanel.SetActive(false);
+        PauseManager.SetPause(false);
     }
 }
