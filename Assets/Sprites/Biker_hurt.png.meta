@@ -1,19 +1,13 @@
 fileFormatVersion: 2
-guid: b50c20a783525ba4697e4e5be2c84e86
+guid: 8d11b6c8ce0ba5b4da59e7a2cd5d1870
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -181828907702267046
-    second: Biker_idle_0
+      213: -4682421474997173924
+    second: Biker_hurt_0
   - first:
-      213: -5276250086338837625
-    second: Biker_idle_1
-  - first:
-      213: 1588335839631089550
-    second: Biker_idle_2
-  - first:
-      213: 3203990619637221514
-    second: Biker_idle_3
+      213: 8908475915502258604
+    second: Biker_hurt_1
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -109,34 +103,12 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Biker_Idle_0
+      name: Biker_hurt_0
       rect:
         serializedVersion: 2
         x: 4
         y: 0
         width: 19
-        height: 47
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 28efde8c5b5d49348a4c7b3199895235
-      internalID: 1219461846
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Biker_Idle_1
-      rect:
-        serializedVersion: 2
-        x: 51
-        y: 0
-        width: 20
         height: 48
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
@@ -144,21 +116,21 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: 329d22be91631bf4fa1262244c5b6d07
-      internalID: 1679832081
+      spriteID: c51022e1a72b40fb0800000000000000
+      internalID: -4682421474997173924
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Biker_Idle_2
+      name: Biker_hurt_1
       rect:
         serializedVersion: 2
-        x: 99
+        x: 49
         y: 0
-        width: 20
+        width: 22
         height: 48
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
@@ -166,32 +138,10 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: 66418497829c7dd40b1ec6de7022b7cc
-      internalID: 831941857
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Biker_Idle_3
-      rect:
-        serializedVersion: 2
-        x: 148
-        y: 0
-        width: 19
-        height: 48
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 56b7fc5389f61134d8de14183c8d68a8
-      internalID: 1051663371
+      spriteID: ca982a165a341ab70800000000000000
+      internalID: 8908475915502258604
       vertices: []
       indices: 
       edges: []
@@ -200,7 +150,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 502556d870678824cb40a859e1d10b7c
+    spriteID: 2e0ecd469edb1794887b906cebe41f8f
     internalID: 0
     vertices: []
     indices: 
@@ -212,10 +162,8 @@ TextureImporter:
       - key: SpriteEditor.SliceSettings
         value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":64.0,"y":64.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":0,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
-      Biker_Idle_0: 1219461846
-      Biker_Idle_1: 1679832081
-      Biker_Idle_2: 831941857
-      Biker_Idle_3: 1051663371
+      Biker_hurt_0: -4682421474997173924
+      Biker_hurt_1: 8908475915502258604
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

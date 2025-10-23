@@ -8592,10 +8592,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BattleHandler
   pfCharacterBattle: {fileID: 7898928658159354419, guid: 2fa75ce0bcb66cc4f82fbf9b43add076, type: 3}
-  playerSprite: {fileID: 2051704429, guid: 94f9acefc2a024542b465e8b1c47d4da, type: 3}
-  enemySprite: {fileID: -1850503468, guid: b50c20a783525ba4697e4e5be2c84e86, type: 3}
   playerAnimatorOverride: {fileID: 22100000, guid: 90662b28fa901a6408e3451fe74948f8, type: 2}
-  enemyAnimatorOverride: {fileID: 0}
+  enemyAnimatorOverride: {fileID: 22100000, guid: ebedb82b84eeddd41a0c4999ff1f1d9c, type: 2}
 --- !u!4 &1402301981
 Transform:
   m_ObjectHideFlags: 0
