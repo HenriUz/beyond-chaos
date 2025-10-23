@@ -1,79 +1,63 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class BattleHandler : MonoBehaviour {
-
-    private State state;
+    private State _state;
     private static BattleHandler _instance;
-
+    
     [SerializeField] private Transform pfCharacterBattle;
     public Sprite playerSprite;
     public Sprite enemySprite;
     public RuntimeAnimatorController playerAnimatorOverride;
     public RuntimeAnimatorController enemyAnimatorOverride;
 
-    private CharacterBattle playerCharacterBattle;
-    private CharacterBattle enemyCharacterBattle;
-    private CharacterBattle activeCharacterBattle;
+    private CharacterBattle _playerCharacterBattle;
+    private CharacterBattle _enemyCharacterBattle;
+    private CharacterBattle _activeCharacterBattle;
 
+    private enum State {
+        WaitingForInput,
+        Busy,
+        EnemyTurn
+    }
+    
+    private void Awake() {
+        _instance = this;
+    }
+    
+    private void Start() {
+        _playerCharacterBattle = SpawnCharacter(true);
+        _enemyCharacterBattle = SpawnCharacter(false);       
+
+        SetActiveCharacterBattle(_playerCharacterBattle);    
+        _state = State.WaitingForInput;
+    }
+    
     public static BattleHandler GetInstance() {
         return _instance;
     }
 
-    private enum State {
-        WAITING_FOR_INPUT,
-        BUSY,
-        ENEMY_TURN
-    }
-
-    private void SetActiveCharacterBattle(CharacterBattle characterBattle) {
-        if (activeCharacterBattle != null) {
-            activeCharacterBattle.HideSelectionIndicator();
-        }
-
-        activeCharacterBattle = characterBattle;
-        activeCharacterBattle.ShowSelectionIndicator();
-    }
-
-    private void Awake() {
-        _instance = this;
-    }
-
-    private void Start() {
-        playerCharacterBattle = SpawnCharacter(true);
-        enemyCharacterBattle = SpawnCharacter(false);       
-
-        SetActiveCharacterBattle(playerCharacterBattle);    
-        state = State.WAITING_FOR_INPUT;
-    }
-
+    /* Setup functions. */
+    
     private CharacterBattle SpawnCharacter(bool isPlayerTeam) {
-        Vector3 position = isPlayerTeam ? new Vector3(-8, 0) : new Vector3(+8, 0);
+        var position = isPlayerTeam ? new Vector3(-8, 0) : new Vector3(+8, 0);
 
-        Transform characterTransform = Instantiate(pfCharacterBattle, position, Quaternion.identity);
-        CharacterBattle characterBattle = characterTransform.GetComponent<CharacterBattle>();
-        characterBattle.Setup(isPlayerTeam);
+        var characterTransform = Instantiate(pfCharacterBattle, position, Quaternion.identity);
+        var characterBattle = characterTransform.GetComponent<CharacterBattle>();
+        characterBattle.Setup(isPlayerTeam, WorldManager.Instance.PlayerLife);
         return characterBattle;
     }
-
-    private void OnAttack(InputValue inputValue) {
-        if (state == State.WAITING_FOR_INPUT) {
-            state = State.BUSY;
-            playerCharacterBattle.Attack(enemyCharacterBattle, () => {
-                SelectNextActiveCharacter();
-            });
-        } else if (state == State.ENEMY_TURN) {
-            state = State.BUSY;
-            playerCharacterBattle.StartDefending();
+    
+    /* Turn management. */
+    
+    private void SetActiveCharacterBattle(CharacterBattle characterBattle) {
+        if (_activeCharacterBattle != null) {
+            _activeCharacterBattle.HideSelectionIndicator();
         }
-    }
 
-    private void OnJump() {
-        if (state == State.ENEMY_TURN) {
-            state = State.BUSY;
-
-            playerCharacterBattle.Dodge();
-        }
+        _activeCharacterBattle = characterBattle;
+        _activeCharacterBattle.ShowSelectionIndicator();
     }
 
     private void SelectNextActiveCharacter() {
@@ -81,32 +65,56 @@ public class BattleHandler : MonoBehaviour {
             return;
         }
         
-        if (activeCharacterBattle == playerCharacterBattle) {
-            SetActiveCharacterBattle(enemyCharacterBattle);
+        if (_activeCharacterBattle == _playerCharacterBattle) {
+            SetActiveCharacterBattle(_enemyCharacterBattle);
 
-            state = State.ENEMY_TURN;
-            Debug.Log("State: " + state);
-            enemyCharacterBattle.Attack(playerCharacterBattle, () => {
+            _state = State.EnemyTurn;
+            Debug.Log("State: " + _state);
+            _enemyCharacterBattle.Attack(_playerCharacterBattle, () => {
                 Debug.Log("Enemy Attack Finished!");
 
                 SelectNextActiveCharacter();
-                Debug.Log("State: " + state);
+                Debug.Log("State: " + _state);
             });
         } else {
-            SetActiveCharacterBattle(playerCharacterBattle);
-            state = State.WAITING_FOR_INPUT;
+            SetActiveCharacterBattle(_playerCharacterBattle);
+            _state = State.WaitingForInput;
         }
     }
 
     private bool IsBattleOver() {
-        if (playerCharacterBattle.IsDead()) {
+        if (_playerCharacterBattle.IsDead()) {
             Debug.Log("Enemy Wins!");
             return true;
-        } else if (enemyCharacterBattle.IsDead()) {
-            Debug.Log("Player Wins!");
-            return true;
-        } 
+        }
 
-        return false;
+        if (!_enemyCharacterBattle.IsDead()) return false;
+        
+        Debug.Log("Player Wins!");
+        WorldManager.Instance.DamagePlayer(_playerCharacterBattle.GetLife());
+        SceneManager.LoadScene("Scenes/WorldFactory");
+        return true;
+    }
+    
+    /* Combat functions. */
+    
+    private void OnAttack(InputValue inputValue) {
+        switch (_state) {
+            case State.WaitingForInput:
+                _state = State.Busy;
+                _playerCharacterBattle.Attack(_enemyCharacterBattle, SelectNextActiveCharacter);
+                break;
+            case State.EnemyTurn:
+                _state = State.Busy;
+                _playerCharacterBattle.StartDefending();
+                break;
+        }
+    }
+
+    private void OnJump() {
+        if (_state != State.EnemyTurn) return;
+        
+        _state = State.Busy;
+        _playerCharacterBattle.Dodge();
     }
 }

@@ -1,24 +1,25 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class WorldManager : MonoBehaviour {
-    private static WorldManager _instance;
+    public static WorldManager Instance {get; private set;}
 
-    private int _playerLife = 100;
-    private Vector3 _playerPosition = new(5, -7, 0);
+    public int PlayerLife { get; private set; } = 100;
+    public Vector3 PlayerPosition { get; private set; } = new(5, -7, 0);
 
     [SerializeField] private List<GameObject> enemies;
     private List<Transform> _enemiesSpawns;
     private readonly List<bool> _enemiesAlive = new();
     
     private void Awake() {
-        if (_instance != null) {
+        if (Instance != null) {
             Destroy(gameObject);
             return;
         }
 
-        _instance = this;
+        Instance = this;
         DontDestroyOnLoad(gameObject);
 
         for (var i = 0; i < enemies.Count; i++) {
@@ -38,6 +39,8 @@ public class WorldManager : MonoBehaviour {
     
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode) {
         if (scene.name != "WorldFactory") return;
+        
+        print(PlayerLife);
 
         var spawn = GameObject.Find("Spawns");
         _enemiesSpawns = new List<Transform>();
@@ -57,22 +60,18 @@ public class WorldManager : MonoBehaviour {
     public void SetEnemyDead(int index) {
         _enemiesAlive[index] = false;
     }
+
+    public bool AreAllDead() {
+        return _enemiesAlive.All(state => !state);
+    }
     
     /* Player's functions. */
     
-    public int GetPlayerLife() {
-        return _playerLife;
+    public void DamagePlayer(int newPlayerLife) {
+        PlayerLife = newPlayerLife;
     }
 
-    public void SetPlayerLife(int newPlayerLife) {
-        _playerLife = newPlayerLife;
-    }
-    
-    public Vector3 GetPlayerPosition() {
-        return _playerPosition;
-    }
-
-    public void SetPlayerPosition(Vector3 newPlayerPosition) {
-        _playerPosition = newPlayerPosition;
+    public void UpdatePlayerPosition(Vector3 newPlayerPosition) {
+        PlayerPosition = newPlayerPosition;
     }
 }

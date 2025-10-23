@@ -15,6 +15,9 @@ EditorBuildSettings:
     path: Assets/Scenes/WorldFactory.unity
     guid: f900843436486f9c9aa0d5dc2e8849ec
   - enabled: 1
+    path: Assets/Scenes/CombatScene.unity
+    guid: 00d5f3e70fdb4564790c482595a6a21b
+  - enabled: 1
     path: Assets/Scenes/Test.unity
     guid: bd6037ee3a0398bc195ceb9c3856f931
   - enabled: 1
