@@ -1,19 +1,17 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace UI
-{ 
-    public class MainUIController : MonoBehaviour
-    {
-        // Start is called once before the first execution of Update after the MonoBehaviour is created
-        public void StartGame()
-        {
-            SceneManager.LoadScene("EndGameMenu");
+namespace UI { 
+    public class MainUIController : MonoBehaviour {
+        public void StartGame() {
+            if (WorldManager.Instance != null) {
+                WorldManager.Instance.Setup();
+            }
+            
+            SceneManager.LoadScene("Scenes/WorldFactory");
         }
 
-        // Update is called once per frame
-        public void Exit()
-        {
+        public void Exit() {
             Application.Quit();
         }
     }

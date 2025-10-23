@@ -6,7 +6,9 @@ using UnityEngine.SceneManagement;
 public class WorldManager : MonoBehaviour {
     public static WorldManager Instance {get; private set;}
 
+    private int OriginalPlayerLife { get; } = 100;
     public int PlayerLife { get; private set; } = 100;
+    private Vector3 OriginalPlayerPosition { get; } = new(5, -7, 0);
     public Vector3 PlayerPosition { get; private set; } = new(5, -7, 0);
 
     [SerializeField] private List<GameObject> enemies;
@@ -27,6 +29,15 @@ public class WorldManager : MonoBehaviour {
         }
     }
 
+    public void Setup() {
+        PlayerLife = OriginalPlayerLife;
+        PlayerPosition = OriginalPlayerPosition;
+
+        for (var i = 0; i < _enemiesAlive.Count; i++) {
+            _enemiesAlive[i] = true;
+        }
+    }
+
     /* Scene's functions. */
 
     private void OnEnable() {
@@ -39,8 +50,6 @@ public class WorldManager : MonoBehaviour {
     
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode) {
         if (scene.name != "WorldFactory") return;
-        
-        print(PlayerLife);
 
         var spawn = GameObject.Find("Spawns");
         _enemiesSpawns = new List<Transform>();

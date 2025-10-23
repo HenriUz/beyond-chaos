@@ -85,6 +85,7 @@ public class BattleHandler : MonoBehaviour {
     private bool IsBattleOver() {
         if (_playerCharacterBattle.IsDead()) {
             Debug.Log("Enemy Wins!");
+            SceneManager.LoadScene("Scenes/EndGameMenu");
             return true;
         }
 
