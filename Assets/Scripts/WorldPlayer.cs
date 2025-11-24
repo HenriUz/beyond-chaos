@@ -33,6 +33,7 @@ public class WorldPlayer : MonoBehaviour {
             _animator.SetBool(isWalking, false);
         } else {
             _rigidbody.linearVelocity = _direction * (speed * Time.deltaTime);
+            WorldManager.Instance.UpdatePlayerPosition(transform.position);
             
             var flip = Mathf.Abs(_rigidbody.linearVelocityX) > Mathf.Epsilon;
             if (flip) {

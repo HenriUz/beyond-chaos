@@ -15,7 +15,7 @@ MonoBehaviour:
   npcName: Player
   npcPortrait: {fileID: 617562206183986790, guid: d0e24324466f5b004a6c81cd8877cf4b, type: 3}
   dialogueLines:
-  - Devo eliminar todos os monstros antes de sair
+  - Devo eliminar todos os monstros antes de sair.
   autoProgressLines: 00
   autoProgressDelay: 1.5
   typingSpeed: 0.05
