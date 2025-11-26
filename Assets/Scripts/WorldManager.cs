@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using Sound;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -49,8 +50,13 @@ public class WorldManager : MonoBehaviour {
     }
     
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode) {
-        if (scene.name != "WorldFactory") return;
+        if (scene.name != "WorldFactory") {
+            SoundManager.PlayBackground(null);
+            return;
+        };
 
+        SoundManager.PlayBackground("factory_background");
+        
         var spawn = GameObject.Find("Spawns");
         _enemiesSpawns = new List<Transform>();
         foreach (Transform child in spawn.transform) {

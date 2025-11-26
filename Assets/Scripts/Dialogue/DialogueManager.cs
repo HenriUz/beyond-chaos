@@ -1,4 +1,5 @@
 using System.Collections;
+using Sound;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -78,6 +79,7 @@ namespace Dialogue {
 
             foreach (var letter in _dialogueData.dialogueLines[_dialogueIndex]) {
                 dialogueText.text += letter;
+                SoundManager.PlayVoice(_dialogueData.voiceSound, _dialogueData.voicePitch);
                 yield return new WaitForSeconds(_dialogueData.typingSpeed);
             }
             
