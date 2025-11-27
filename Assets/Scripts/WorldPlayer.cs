@@ -5,7 +5,7 @@ public class WorldPlayer : MonoBehaviour {
     private Rigidbody2D _rigidbody;
     
     private Animator _animator;
-    private readonly int isWalking = Animator.StringToHash("isWalking");
+    private readonly int isWalking = Animator.StringToHash("isRunning");
     
     private Vector2 _direction;
     [SerializeField] private float speed;
