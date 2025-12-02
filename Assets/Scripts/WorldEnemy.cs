@@ -49,7 +49,7 @@ public class WorldEnemy : MonoBehaviour {
     private void FixedUpdate() {
         var state = CheckState();
 
-        if (PauseManager.IsGamePaused) {
+        if (PauseManager.Instance.IsGamePaused) {
             _rigidbody.linearVelocity = Vector2.zero;
         } else {
             switch (state) {

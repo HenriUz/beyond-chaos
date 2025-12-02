@@ -28,7 +28,7 @@ public class WorldPlayer : MonoBehaviour {
     }
     
     private void Move() {
-        if (PauseManager.IsGamePaused) {
+        if (PauseManager.Instance.IsGamePaused) {
             _rigidbody.linearVelocity = Vector2.zero;
             _animator.SetBool(isWalking, false);
         } else {
@@ -47,5 +47,13 @@ public class WorldPlayer : MonoBehaviour {
 
     private void FlipObject() {
         transform.localScale = new Vector3(Mathf.Sign(_rigidbody.linearVelocityX), transform.localScale.y, transform.localScale.z);
+    }
+
+    private void OnPause(InputValue inputValue) {
+        if (PauseManager.Instance.IsMenuActive) {
+            PauseManager.Instance.Resume();
+        } else if (!PauseManager.Instance.IsGamePaused) {
+            PauseManager.Instance.ShowMenu();
+        }
     }
 }

@@ -33,7 +33,7 @@ namespace Dialogue {
         }
 
         public void Interact(NpcDialogue npcDialogue) {
-            if (npcDialogue == null || (PauseManager.IsGamePaused && !_isDialogueActive)) return;
+            if (npcDialogue == null || (PauseManager.Instance.IsGamePaused && !_isDialogueActive)) return;
             
             _dialogueData = npcDialogue;
             if (_isDialogueActive) {
@@ -53,7 +53,7 @@ namespace Dialogue {
             portraitImage.sprite = _dialogueData.npcPortrait;
 
             dialoguePanel.SetActive(true);
-            PauseManager.SetPause(true);
+            PauseManager.Instance.SetPause(true);
             
             StartCoroutine(TypeLine());
         }
@@ -95,7 +95,7 @@ namespace Dialogue {
             _isDialogueActive = false;
             dialogueText.SetText("");
             dialoguePanel.SetActive(false);
-            PauseManager.SetPause(false);
+            PauseManager.Instance.SetPause(false);
         }
     }
 }
