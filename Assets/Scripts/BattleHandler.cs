@@ -53,8 +53,9 @@ public class BattleHandler : MonoBehaviour {
 
         var characterTransform = Instantiate(pfCharacterBattle, position, Quaternion.identity);
         var characterBattle = characterTransform.GetComponent<CharacterBattle>();
-        // characterBattle.Setup(isPlayerTeam, WorldManager.Instance.PlayerLife);
-        characterBattle.Setup(isPlayerTeam, 100);
+        
+        // characterBattle.Setup(isPlayerTeam, 100);
+        characterBattle.Setup(isPlayerTeam, WorldManager.Instance.PlayerLife);
         return characterBattle;
     }
     

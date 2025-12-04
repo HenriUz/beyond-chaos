@@ -116,9 +116,13 @@ public class CharacterBattle : MonoBehaviour {
 
         if (isPlayerTeam) {
             _healthSystem = new Health(MAXHEALTH);
-            // _healthSystem.currentHealth = life;
+            _healthSystem.currentHealth = life;
         } else {
             _healthSystem = new Health(MAXHEALTH);
+            
+            var localScale = transform.localScale;
+            localScale.x = -Mathf.Abs(localScale.x);
+            transform.localScale = localScale;
         }
 
         GameObject healthBarPrefab = BattleHandler.GetInstance().HealthBarPrefab;
@@ -129,10 +133,6 @@ public class CharacterBattle : MonoBehaviour {
         UpdateHealthBarPosition();
         _healthSystem.OnHealthChanged += OnHealthChanged;
         _healthBar.SetValue(_healthSystem.GetHealthNormalized());
-        
-        var localScale = transform.localScale;
-        localScale.x = -Mathf.Abs(localScale.x);
-        transform.localScale = localScale;
     }
 
     private void OnHealthChanged(float normalizedHealth) {
