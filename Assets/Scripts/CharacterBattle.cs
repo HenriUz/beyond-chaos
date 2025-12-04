@@ -12,6 +12,7 @@ public class CharacterBattle : MonoBehaviour {
     private Action _onMoveComplete;
     private GameObject _selectionIndicatorGo;
     private SpriteRenderer _spriteRenderer;
+    private bool _isPlayerTeam;
 
     private bool _isInvincible;
     [SerializeField] private float parryWindow = 0.22f;
@@ -107,6 +108,7 @@ public class CharacterBattle : MonoBehaviour {
     /* Setup functions. */
     
     public void Setup(bool isPlayerTeam, int life) {
+        _isPlayerTeam = isPlayerTeam;
         var animatorOverride = isPlayerTeam ? BattleHandler.GetInstance().playerAnimatorOverride : BattleHandler.GetInstance().enemyAnimatorOverride;
 
         _characterBase.SetAnimatorOverride(animatorOverride);
@@ -114,7 +116,7 @@ public class CharacterBattle : MonoBehaviour {
 
         if (isPlayerTeam) {
             _healthSystem = new Health(MAXHEALTH);
-            _healthSystem.currentHealth = life;
+            // _healthSystem.currentHealth = life;
         } else {
             _healthSystem = new Health(MAXHEALTH);
         }
@@ -148,6 +150,20 @@ public class CharacterBattle : MonoBehaviour {
 
         // aplica no canvas
         _healthBar.transform.position = screenPos;
+    }
+
+    private void ShowMessagePopup(string message, Color color) {
+        var damagePopupPrefab = BattleHandler.GetInstance().DamagePopupPrefab;
+        var uiParent = BattleHandler.GetInstance().WorldCanvas;
+
+        DamagePopup damagePopup = Instantiate(damagePopupPrefab, uiParent.transform).GetComponent<DamagePopup>();
+        
+        float xOffset = _isPlayerTeam ? 1f : -1f;
+        Vector3 worldPos = transform.position + new Vector3(xOffset, 1f, 0);
+        Vector3 screenPos = Camera.main.WorldToScreenPoint(worldPos);
+        damagePopup.transform.position = screenPos;
+
+        damagePopup.Setup(message, color);
     }
 
     /* Animation functions. */
@@ -243,6 +259,7 @@ public class CharacterBattle : MonoBehaviour {
     private void Damage(int damageAmount) {
         if (_isInvincible) {
             // Successful parry.
+            ShowMessagePopup("Parry!", Color.yellow);
             Debug.Log("CharacterBattle parried the attack!");
             _isInvincible = false;
             return;
@@ -251,6 +268,7 @@ public class CharacterBattle : MonoBehaviour {
         // Handle taking damage.
         _characterBase.PlayDamageAnimation();
         _healthSystem.TakeDamage(damageAmount);
+        ShowMessagePopup(damageAmount.ToString(), Color.red);
         Debug.Log("CharacterBattle took " + damageAmount + " damage!");
 
         if (_healthSystem.currentHealth > 0) return;

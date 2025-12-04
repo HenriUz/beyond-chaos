@@ -10,8 +10,11 @@ public class BattleHandler : MonoBehaviour {
     
     [SerializeField] private Canvas worldCanvas;
     [SerializeField] private GameObject healthBarPrefab;
-    public GameObject HealthBarPrefab => healthBarPrefab;
+    [SerializeField] private GameObject damagePopupPrefab;
+
     public Canvas WorldCanvas => worldCanvas;
+    public GameObject HealthBarPrefab => healthBarPrefab;
+    public GameObject DamagePopupPrefab => damagePopupPrefab;
 
 
     public RuntimeAnimatorController playerAnimatorOverride;
@@ -50,7 +53,8 @@ public class BattleHandler : MonoBehaviour {
 
         var characterTransform = Instantiate(pfCharacterBattle, position, Quaternion.identity);
         var characterBattle = characterTransform.GetComponent<CharacterBattle>();
-        characterBattle.Setup(isPlayerTeam, WorldManager.Instance.PlayerLife);
+        // characterBattle.Setup(isPlayerTeam, WorldManager.Instance.PlayerLife);
+        characterBattle.Setup(isPlayerTeam, 100);
         return characterBattle;
     }
     

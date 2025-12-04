@@ -196,7 +196,7 @@ Canvas:
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
   m_VertexColorAlwaysGammaSpace: 0
-  m_AdditionalShaderChannelsFlag: 0
+  m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
   m_SortingOrder: 0
@@ -8774,6 +8774,7 @@ MonoBehaviour:
   pfCharacterBattle: {fileID: 7898928658159354419, guid: 2fa75ce0bcb66cc4f82fbf9b43add076, type: 3}
   worldCanvas: {fileID: 123552285}
   healthBarPrefab: {fileID: 586733401738952186, guid: 3e2dbf94a054e6c468752d85d9cdc285, type: 3}
+  damagePopupPrefab: {fileID: 1069765751147589357, guid: 6f77e9497a8386946bd625e437587376, type: 3}
   playerAnimatorOverride: {fileID: 22100000, guid: 90662b28fa901a6408e3451fe74948f8, type: 2}
   enemyAnimatorOverride: {fileID: 22100000, guid: ebedb82b84eeddd41a0c4999ff1f1d9c, type: 2}
 --- !u!4 &1402301981
