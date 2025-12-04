@@ -2,7 +2,10 @@ using System;
 using UnityEngine;
 
 public class CharacterBattle : MonoBehaviour {
-    private int _characterHealth = 100;
+    private const int MAXHEALTH = 100;
+    public Health _healthSystem;
+    private HealthBar _healthBar;
+
     private CharacterBase _characterBase;
     private State _state;
     private Vector3 _targetPosition;
@@ -37,6 +40,8 @@ public class CharacterBattle : MonoBehaviour {
     }
     
     private void Update() {
+        UpdateHealthBarPosition();
+
         switch (_state) {
             case State.Idle:
                 // Handle idle behavior.
@@ -92,7 +97,7 @@ public class CharacterBattle : MonoBehaviour {
     }
     
     public int GetLife() {
-        return _characterHealth;
+        return _healthSystem.currentHealth;
     }
     
     public Vector3 GetPosition() {
@@ -106,14 +111,43 @@ public class CharacterBattle : MonoBehaviour {
 
         _characterBase.SetAnimatorOverride(animatorOverride);
 
+
         if (isPlayerTeam) {
-            _characterHealth = life;
-            return;
+            _healthSystem = new Health(MAXHEALTH);
+            _healthSystem.currentHealth = life;
+        } else {
+            _healthSystem = new Health(MAXHEALTH);
         }
+
+        GameObject healthBarPrefab = BattleHandler.GetInstance().HealthBarPrefab;
+        Canvas uiParent = BattleHandler.GetInstance().WorldCanvas;
+
+        _healthBar = GameObject.Instantiate(healthBarPrefab, uiParent.transform).GetComponent<HealthBar>();
+
+        UpdateHealthBarPosition();
+        _healthSystem.OnHealthChanged += OnHealthChanged;
+        _healthBar.SetValue(_healthSystem.GetHealthNormalized());
         
         var localScale = transform.localScale;
         localScale.x = -Mathf.Abs(localScale.x);
         transform.localScale = localScale;
+    }
+
+    private void OnHealthChanged(float normalizedHealth) {
+        _healthBar.SetValue(_healthSystem.GetHealthNormalized());
+    }
+
+    private void UpdateHealthBarPosition() {
+        if (_healthBar == null) return;
+
+        // altura acima do personagem
+        Vector3 worldPos = transform.position + new Vector3(0, 1.5f, 0);
+
+        // converte para tela
+        Vector3 screenPos = Camera.main.WorldToScreenPoint(worldPos);
+
+        // aplica no canvas
+        _healthBar.transform.position = screenPos;
     }
 
     /* Animation functions. */
@@ -216,12 +250,11 @@ public class CharacterBattle : MonoBehaviour {
 
         // Handle taking damage.
         _characterBase.PlayDamageAnimation();
-        _characterHealth -= damageAmount;
+        _healthSystem.TakeDamage(damageAmount);
         Debug.Log("CharacterBattle took " + damageAmount + " damage!");
 
-        if (_characterHealth > 0) return;
-        
-        _characterHealth = 0;
+        if (_healthSystem.currentHealth > 0) return;
+
         _state = State.Dead;
         // characterBase.PlayDeathAnimation();
     }

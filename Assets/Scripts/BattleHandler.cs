@@ -7,8 +7,13 @@ public class BattleHandler : MonoBehaviour {
     private static BattleHandler _instance;
     
     [SerializeField] private Transform pfCharacterBattle;
-    public Sprite playerSprite;
-    public Sprite enemySprite;
+    
+    [SerializeField] private Canvas worldCanvas;
+    [SerializeField] private GameObject healthBarPrefab;
+    public GameObject HealthBarPrefab => healthBarPrefab;
+    public Canvas WorldCanvas => worldCanvas;
+
+
     public RuntimeAnimatorController playerAnimatorOverride;
     public RuntimeAnimatorController enemyAnimatorOverride;
 
