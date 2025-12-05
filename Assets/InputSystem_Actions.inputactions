@@ -88,7 +88,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "New action",
+                    "name": "Parry",
                     "type": "Button",
                     "id": "e5480abd-ac5d-46ec-8154-d9ec62ade1ea",
                     "expectedControlType": "",
@@ -330,6 +330,17 @@
                 {
                     "name": "",
                     "id": "b3c1c7f0-bd20-4ee7-a0f1-899b24bca6d7",
+                    "path": "<Keyboard>/e",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "Attack",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "80529f9e-e4ec-4ddf-bf98-fb5eabc791c0",
                     "path": "<Keyboard>/enter",
                     "interactions": "",
                     "processors": "",
@@ -495,11 +506,11 @@
                 {
                     "name": "",
                     "id": "6279f0ce-4fbd-4715-a00d-34d3e1155088",
-                    "path": "",
+                    "path": "<Keyboard>/r",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
-                    "action": "New action",
+                    "groups": "Keyboard&Mouse",
+                    "action": "Parry",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },

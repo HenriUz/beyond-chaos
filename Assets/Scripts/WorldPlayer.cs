@@ -12,7 +12,7 @@ public class WorldPlayer : MonoBehaviour {
     
     private void Awake() {
         _rigidbody = GetComponent<Rigidbody2D>();
-        _animator = GetComponentInChildren<Animator>();
+        _animator = GetComponent<Animator>();
     }
 
     private void Start() {

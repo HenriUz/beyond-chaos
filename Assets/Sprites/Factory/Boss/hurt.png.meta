@@ -1,25 +1,13 @@
 fileFormatVersion: 2
-guid: a467a91d07dd088f4918673498df102f
+guid: 35827a7da0d6dd74aac898b04104bb35
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -5344194518197110270
-    second: boss_run_0
+      213: -4682421474997173924
+    second: Biker_hurt_0
   - first:
-      213: -3066224121736070880
-    second: boss_run_1
-  - first:
-      213: -4292910181822419051
-    second: boss_run_2
-  - first:
-      213: -8511315224371419116
-    second: boss_run_3
-  - first:
-      213: 3274090540660552236
-    second: boss_run_4
-  - first:
-      213: -281940476518747049
-    second: boss_run_5
+      213: 8908475915502258604
+    second: Biker_hurt_1
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -115,12 +103,12 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: run_0
+      name: Biker_hurt_0
       rect:
         serializedVersion: 2
-        x: 3
+        x: 4
         y: 0
-        width: 35
+        width: 19
         height: 48
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
@@ -128,21 +116,21 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: 23d1f8cdd68c33cd19ed37d58f04f40e
-      internalID: -285400742
+      spriteID: c51022e1a72b40fb0800000000000000
+      internalID: -4682421474997173924
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: run_1
+      name: Biker_hurt_1
       rect:
         serializedVersion: 2
-        x: 55
+        x: 49
         y: 0
-        width: 35
+        width: 22
         height: 48
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
@@ -150,98 +138,10 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: e47bd84421f6fb6028ebbf5c5ce692f5
-      internalID: 2071660507
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: run_2
-      rect:
-        serializedVersion: 2
-        x: 98
-        y: 0
-        width: 35
-        height: 48
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 9a597367283ad0b8f871e139fac15578
-      internalID: -1416437765
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: run_3
-      rect:
-        serializedVersion: 2
-        x: 145
-        y: 0
-        width: 35
-        height: 48
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 13b450d40a0e2fbaebe3538c333faa7e
-      internalID: -1975882136
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: run_4
-      rect:
-        serializedVersion: 2
-        x: 199
-        y: 0
-        width: 35
-        height: 48
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 430719086677a5cbd9c69fdda3f2a7d6
-      internalID: -2024988127
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: run_5
-      rect:
-        serializedVersion: 2
-        x: 242
-        y: 0
-        width: 35
-        height: 48
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 172e1666c984fe908b2566f11dda9d3a
-      internalID: 1701931328
+      spriteID: ca982a165a341ab70800000000000000
+      internalID: 8908475915502258604
       vertices: []
       indices: 
       edges: []
@@ -250,7 +150,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: fa5848044fca31e8b9e1a30b5e6eff6d
+    spriteID: 2e0ecd469edb1794887b906cebe41f8f
     internalID: 0
     vertices: []
     indices: 
@@ -260,14 +160,10 @@ TextureImporter:
     spriteCustomMetadata:
       entries:
       - key: SpriteEditor.SliceSettings
-        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":48.0,"y":48.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":1,"keepEmptyRects":false,"isAlternate":false}'
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":64.0,"y":64.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":0,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
-      run_0: -285400742
-      run_1: 2071660507
-      run_2: -1416437765
-      run_3: -1975882136
-      run_4: -2024988127
-      run_5: 1701931328
+      Biker_hurt_0: -4682421474997173924
+      Biker_hurt_1: 8908475915502258604
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

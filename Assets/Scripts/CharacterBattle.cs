@@ -7,12 +7,16 @@ public class CharacterBattle : MonoBehaviour {
     private HealthBar _healthBar;
 
     private CharacterBase _characterBase;
+    private RuntimeAnimatorController _enemyAnimatorOverride;
+
     private State _state;
     private Vector3 _targetPosition;
     private Action _onMoveComplete;
     private GameObject _selectionIndicatorGo;
     private SpriteRenderer _spriteRenderer;
     private bool _isPlayerTeam;
+    private Transform _visualTransform;
+
 
     private bool _isInvincible;
     [SerializeField] private float parryWindow = 0.22f;
@@ -32,12 +36,17 @@ public class CharacterBattle : MonoBehaviour {
     }
 
     private void Awake() {
-        _spriteRenderer = GetComponent<SpriteRenderer>();
-        _characterBase = GetComponent<CharacterBase>();        
+        _spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+        _characterBase = GetComponent<CharacterBase>();
+        _enemyAnimatorOverride = WorldManager.Instance.LastEnemyAnimatorController;
         
         _selectionIndicatorGo = transform.Find("SelectionIndicator").gameObject;
         HideSelectionIndicator();
         _state = State.Idle;
+
+        if (_spriteRenderer != null) {
+            _visualTransform = _spriteRenderer.transform;
+        }
     }
     
     private void Update() {
@@ -85,7 +94,7 @@ public class CharacterBattle : MonoBehaviour {
                         _state = State.Idle;
                         _isInvincible = false;
                         StopDefendingVisual();
-                        Debug.Log("CharacterBattle finished dodging!");
+                        // Debug.Log("CharacterBattle finished dodging!");
                     }
                 }
                 break;
@@ -109,10 +118,9 @@ public class CharacterBattle : MonoBehaviour {
     
     public void Setup(bool isPlayerTeam, int life) {
         _isPlayerTeam = isPlayerTeam;
-        var animatorOverride = isPlayerTeam ? BattleHandler.GetInstance().playerAnimatorOverride : BattleHandler.GetInstance().enemyAnimatorOverride;
+        var animatorOverride = isPlayerTeam ? BattleHandler.GetInstance().playerAnimatorOverride : _enemyAnimatorOverride;
 
         _characterBase.SetAnimatorOverride(animatorOverride);
-
 
         if (isPlayerTeam) {
             _healthSystem = new Health(MAXHEALTH);
@@ -120,9 +128,9 @@ public class CharacterBattle : MonoBehaviour {
         } else {
             _healthSystem = new Health(MAXHEALTH);
             
-            var localScale = transform.localScale;
+            var localScale = _visualTransform.localScale;
             localScale.x = -Mathf.Abs(localScale.x);
-            transform.localScale = localScale;
+            _visualTransform.localScale = localScale;
         }
 
         GameObject healthBarPrefab = BattleHandler.GetInstance().HealthBarPrefab;
@@ -143,7 +151,7 @@ public class CharacterBattle : MonoBehaviour {
         if (_healthBar == null) return;
 
         // altura acima do personagem
-        Vector3 worldPos = transform.position + new Vector3(0, 1.5f, 0);
+        Vector3 worldPos = _visualTransform.position + new Vector3(0, 1.5f, 0);
 
         // converte para tela
         Vector3 screenPos = Camera.main.WorldToScreenPoint(worldPos);
@@ -221,7 +229,7 @@ public class CharacterBattle : MonoBehaviour {
     public void Dodge() {
         if (_state == State.Dodging) return; // Avoid multiple overlapping dashes.
         
-        Debug.Log("CharacterBattle is dodging!");
+        // Debug.Log("CharacterBattle is dodging!");
         _isInvincible = true;
         _invincibleTimer = dodgeWindow;
 
@@ -238,7 +246,7 @@ public class CharacterBattle : MonoBehaviour {
     }
 
     public void StartDefending() {
-        Debug.Log("CharacterBattle is defending!");
+        // Debug.Log("CharacterBattle is defending!");
         _state = State.Defending;
         _isInvincible = true;
         _invincibleTimer = parryWindow;
@@ -253,14 +261,22 @@ public class CharacterBattle : MonoBehaviour {
 
         StopDefendingVisual();
         // characterBase.PlayIdleAnimation();
-        Debug.Log("CharacterBattle stopped defending!");
+        // Debug.Log("CharacterBattle stopped defending!");
     }
 
     private void Damage(int damageAmount) {
         if (_isInvincible) {
+            if (_state == State.Dodging) {
+                // Successful dodge.
+                ShowMessagePopup("Dodge!", Color.green);
+                // Debug.Log("CharacterBattle dodged the attack!");
+                _isInvincible = false;
+                return;
+            }
+
             // Successful parry.
             ShowMessagePopup("Parry!", Color.yellow);
-            Debug.Log("CharacterBattle parried the attack!");
+            // Debug.Log("CharacterBattle parried the attack!");
             _isInvincible = false;
             return;
         }
@@ -269,7 +285,7 @@ public class CharacterBattle : MonoBehaviour {
         _characterBase.PlayDamageAnimation();
         _healthSystem.TakeDamage(damageAmount);
         ShowMessagePopup(damageAmount.ToString(), Color.red);
-        Debug.Log("CharacterBattle took " + damageAmount + " damage!");
+        // Debug.Log("CharacterBattle took " + damageAmount + " damage!");
 
         if (_healthSystem.currentHealth > 0) return;
 

@@ -15,6 +15,9 @@ public class WorldManager : MonoBehaviour {
     [SerializeField] private List<GameObject> enemies;
     private List<Transform> _enemiesSpawns;
     private readonly List<bool> _enemiesAlive = new();
+
+    public GameObject LastEnemyEncountered;
+    public RuntimeAnimatorController LastEnemyAnimatorController;
     
     private void Awake() {
         if (Instance != null) {
@@ -71,6 +74,17 @@ public class WorldManager : MonoBehaviour {
     }
     
     /* Enemy's functions. */
+
+    public void SetEnemyEncoutered(GameObject enemyInstance) {
+        LastEnemyEncountered = enemyInstance;
+        var worldEnemy = enemyInstance.GetComponent<WorldEnemy>();
+        if (worldEnemy != null) {
+            var animator = worldEnemy.GetComponent<Animator>();
+            if (animator != null) {
+                LastEnemyAnimatorController = animator.runtimeAnimatorController;
+            }
+        }
+    }
 
     public void SetEnemyDead(int index) {
         _enemiesAlive[index] = false;

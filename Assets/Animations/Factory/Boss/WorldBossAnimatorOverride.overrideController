@@ -6,10 +6,14 @@ AnimatorOverrideController:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: world_boss
+  m_Name: WorldBossAnimatorOverride
   m_Controller: {fileID: 9100000, guid: f2b76bd30832dc745b86cd6677bbd468, type: 2}
   m_Clips:
   - m_OriginalClip: {fileID: 7400000, guid: 7185eeefef1145744834c7e793686118, type: 2}
     m_OverrideClip: {fileID: 7400000, guid: 90cc18c25a38eea9bbc56e88a0b47393, type: 2}
   - m_OriginalClip: {fileID: 7400000, guid: 4bdc07d92d5db2c4abd003913ff6ad5c, type: 2}
     m_OverrideClip: {fileID: 7400000, guid: 5d617d148c955dfc48a40f56b6809af6, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: c448c88d32dc28549bcd580ad53aafa7, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 3bed37b0a4b37d343bff325bf2717c6d, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 0540107f97b8b994999c31f7a736d235, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: aa4b1fd74bc5ec743848289f412a0424, type: 2}

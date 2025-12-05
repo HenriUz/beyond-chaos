@@ -6,15 +6,20 @@ public class CharacterBase : MonoBehaviour {
     private Animator animator;
     private Action onAttackCompleteEvent;
     private Action onAttackHitEvent;
-    private SpriteRenderer spriteRenderer;
+    private SpriteRenderer _spriteRenderer;
     private int defaultSortingOrder;
+    private Transform _visualTransform;
 
     private void Awake() {
         if (animator == null) {
             animator = GetComponent<Animator>();
         }
-        spriteRenderer = GetComponentInChildren<SpriteRenderer>();
-        defaultSortingOrder = spriteRenderer.sortingOrder;
+        _spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+        defaultSortingOrder = _spriteRenderer.sortingOrder;
+
+        if (_spriteRenderer != null) {
+            _visualTransform = _spriteRenderer.transform;
+        }
     }
 
     public void SetAnimatorOverride(RuntimeAnimatorController animatorOverride) {
@@ -24,18 +29,22 @@ public class CharacterBase : MonoBehaviour {
         animator.runtimeAnimatorController = animatorOverride;
     }
 
+    private void SetDirection(Vector3 direction) {
+        if (direction.x < 0) {
+            Vector3 localScale = _visualTransform.localScale;
+            localScale.x = -Mathf.Abs(localScale.x);
+            _visualTransform.localScale = localScale;
+        } else if (direction.x > 0) {
+            Vector3 localScale = _visualTransform.localScale;
+            localScale.x = Mathf.Abs(localScale.x);
+            _visualTransform.localScale = localScale;
+        }
+    }
+
     public void PlayIdleAnimation(Vector3 direction) {
         if (animator == null) return;
 
-        if (direction.x < 0) {
-            Vector3 localScale = transform.localScale;
-            localScale.x = -Mathf.Abs(localScale.x);
-            transform.localScale = localScale;
-        } else if (direction.x > 0) {
-            Vector3 localScale = transform.localScale;
-            localScale.x = Mathf.Abs(localScale.x);
-            transform.localScale = localScale;
-        }
+        SetDirection(direction);
         
         animator.SetBool("isRunning", false);
     }
@@ -43,15 +52,7 @@ public class CharacterBase : MonoBehaviour {
     public void PlayMoveAnimation(Vector3 direction) {
         if (animator == null) return;
         
-        if (direction.x < 0) {
-            Vector3 localScale = transform.localScale;
-            localScale.x = -Mathf.Abs(localScale.x);
-            transform.localScale = localScale;
-        } else if (direction.x > 0) {
-            Vector3 localScale = transform.localScale;
-            localScale.x = Mathf.Abs(localScale.x);
-            transform.localScale = localScale;
-        }
+        SetDirection(direction);    
 
         animator.SetBool("isRunning", true);
     }
@@ -72,11 +73,11 @@ public class CharacterBase : MonoBehaviour {
     }
 
     private void SetSortingOrderTemporarily(int order) {
-        spriteRenderer.sortingOrder = order;
+        _spriteRenderer.sortingOrder = order;
     }
 
     private void ResetSortingOrder() {
-        spriteRenderer.sortingOrder = defaultSortingOrder;
+        _spriteRenderer.sortingOrder = defaultSortingOrder;
     }
 
     private void OnAttackHit() {

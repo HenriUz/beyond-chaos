@@ -22,7 +22,6 @@ public class DamagePopup : MonoBehaviour {
     private void Update() {
         Vector2 direction = (Vector2.up + Vector2.right).normalized; // diagonal suave
         rect.anchoredPosition += direction * speed * Time.deltaTime;
-        print(rect.anchoredPosition);
 
         // fade out suave
         text.alpha -= 1f / lifetime * Time.deltaTime;

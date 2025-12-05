@@ -41,7 +41,7 @@ public class WorldEnemy : MonoBehaviour {
     }
 
     private void Awake() {
-        _animator = GetComponentInChildren<Animator>();
+        _animator = GetComponent<Animator>();
         _rigidbody = GetComponent<Rigidbody2D>();
         _position = transform.position;
     }
@@ -90,6 +90,7 @@ public class WorldEnemy : MonoBehaviour {
     private void OnCollisionEnter2D(Collision2D other) {
         if (!other.gameObject.CompareTag("Player")) return;
         WorldManager.Instance.SetEnemyDead(index);
+        WorldManager.Instance.SetEnemyEncoutered(gameObject);
         SceneManager.LoadScene("Scenes/CombatScene");
     }
 }
