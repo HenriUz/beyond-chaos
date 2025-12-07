@@ -9,14 +9,22 @@ public class WorldPlayer : MonoBehaviour {
     
     private Vector2 _direction;
     [SerializeField] private float speed;
+    private PlayerStats _playerStats;
     
     private void Awake() {
         _rigidbody = GetComponent<Rigidbody2D>();
         _animator = GetComponent<Animator>();
+        _playerStats = GetComponent<PlayerStats>();
     }
+    
 
     private void Start() {
         transform.position = WorldManager.Instance.PlayerPosition;
+        
+        // Initialize player stats in WorldManager
+        if (_playerStats != null) {
+            WorldManager.Instance.InitializePlayerStats(_playerStats);
+        }
     }
     
     private void FixedUpdate() {

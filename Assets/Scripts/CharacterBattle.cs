@@ -2,16 +2,20 @@ using System;
 using UnityEngine;
 
 public class CharacterBattle : MonoBehaviour {
-    private const int MAXHEALTH = 100;
     public Health _healthSystem;
     private HealthBar _healthBar;
 
     private CharacterBase _characterBase;
     private RuntimeAnimatorController _enemyAnimatorOverride;
+    private EnemyStatsData _enemyStats;
 
     private State _state;
+    private Vector3 _originalPosition;
     private Vector3 _targetPosition;
+
     private Action _onMoveComplete;
+    private Action _onDefenseComplete;
+
     private GameObject _selectionIndicatorGo;
     private SpriteRenderer _spriteRenderer;
     private bool _isPlayerTeam;
@@ -19,6 +23,7 @@ public class CharacterBattle : MonoBehaviour {
 
 
     private bool _isInvincible;
+    [SerializeField] private float speed = 20f;
     [SerializeField] private float parryWindow = 0.22f;
     [SerializeField] private float dodgeWindow = 0.28f;
     [SerializeField] private float speedDodge = 10f;
@@ -42,7 +47,10 @@ public class CharacterBattle : MonoBehaviour {
         
         _selectionIndicatorGo = transform.Find("SelectionIndicator").gameObject;
         HideSelectionIndicator();
+        
+        _originalPosition = GetPosition();    
         _state = State.Idle;
+
 
         if (_spriteRenderer != null) {
             _visualTransform = _spriteRenderer.transform;
@@ -57,10 +65,14 @@ public class CharacterBattle : MonoBehaviour {
                 // Handle idle behavior.
                 break;
             case State.Moving:
-                const float speed = 20f;
+                float step = speed * Time.deltaTime;
+                if (_enemyStats != null) {
+                    step *= _enemyStats.attackSpeedMultiplier;
+                }
+
                 transform.position = Vector3.MoveTowards(GetPosition(), _targetPosition, Time.deltaTime * speed);
 
-                const float distanceAllowed = 1f;
+                const float distanceAllowed = 1.5f;
                 if (Vector3.Distance(GetPosition(), _targetPosition) < distanceAllowed) {
                     transform.position = _targetPosition;
                     _onMoveComplete();
@@ -86,15 +98,18 @@ public class CharacterBattle : MonoBehaviour {
 
                         if (_invincibleTimer <= 0f) {
                             // Begins the return.
-                            _targetPosition = GetPosition() - new Vector3(-1f, 0); // Return to original position.
+                            _targetPosition = _originalPosition; // Return to original position.
                             _isReturningFromDodge = true;
                         }
                     } else {
                         // Finished the return.
-                        _state = State.Idle;
                         _isInvincible = false;
+                        _invincibleTimer = 0f;
                         StopDefendingVisual();
-                        // Debug.Log("CharacterBattle finished dodging!");
+
+                        _onDefenseComplete?.Invoke();
+                        _onDefenseComplete = null;
+                        _state = State.Idle;
                     }
                 }
                 break;
@@ -114,50 +129,78 @@ public class CharacterBattle : MonoBehaviour {
         return transform.position;
     }
 
+    public EnemyStatsData GetEnemyStats() {
+        return _enemyStats;
+    }
+
     /* Setup functions. */
     
-    public void Setup(bool isPlayerTeam, int life) {
+    public void Setup(bool isPlayerTeam, int life, EnemyStatsData enemyStats = null) {
         _isPlayerTeam = isPlayerTeam;
         var animatorOverride = isPlayerTeam ? BattleHandler.GetInstance().playerAnimatorOverride : _enemyAnimatorOverride;
 
         _characterBase.SetAnimatorOverride(animatorOverride);
 
         if (isPlayerTeam) {
-            _healthSystem = new Health(MAXHEALTH);
-            _healthSystem.currentHealth = life;
+            _healthSystem = new Health(WorldManager.Instance.PlayerStats.maxHealth);
+            _healthSystem.currentHealth = WorldManager.Instance.PlayerStats.currentHealth;
         } else {
-            _healthSystem = new Health(MAXHEALTH);
+            // Usa stats do inimigo
+            _enemyStats = enemyStats;
+            int maxHealth = _enemyStats != null ? _enemyStats.maxHealth : 100;
+            _healthSystem = new Health(maxHealth);
             
             var localScale = _visualTransform.localScale;
             localScale.x = -Mathf.Abs(localScale.x);
             _visualTransform.localScale = localScale;
         }
+        
+        // Register health changed event BEFORE creating health bar
+        _healthSystem.OnHealthChanged += OnHealthChanged;
 
-        GameObject healthBarPrefab = BattleHandler.GetInstance().HealthBarPrefab;
+        GameObject healthBarPrefab;
+        if (!_isPlayerTeam && WorldManager.Instance.IsLastEnemyBoss) {
+            healthBarPrefab = BattleHandler.GetInstance().BossHealthBarPrefab;
+            _visualTransform.localPosition += new Vector3(0, 0.1f, 0);
+            _selectionIndicatorGo.transform.localPosition += new Vector3(0, 0.1f, 0);
+        } else {
+            healthBarPrefab = BattleHandler.GetInstance().HealthBarPrefab;
+        }
         Canvas uiParent = BattleHandler.GetInstance().WorldCanvas;
 
         _healthBar = GameObject.Instantiate(healthBarPrefab, uiParent.transform).GetComponent<HealthBar>();
 
         UpdateHealthBarPosition();
-        _healthSystem.OnHealthChanged += OnHealthChanged;
         _healthBar.SetValue(_healthSystem.GetHealthNormalized());
     }
 
     private void OnHealthChanged(float normalizedHealth) {
         _healthBar.SetValue(_healthSystem.GetHealthNormalized());
+
+        if (!_isPlayerTeam && WorldManager.Instance.IsLastEnemyBoss) {
+            // Enter frenzy mode if health below 30%
+            if (normalizedHealth <= 0.3f) {
+                _characterBase.SetAttackSpeedMultiplier(_enemyStats.attackSpeedMultiplier);
+            }
+
+        }
     }
 
     private void UpdateHealthBarPosition() {
         if (_healthBar == null) return;
 
-        // altura acima do personagem
-        Vector3 worldPos = _visualTransform.position + new Vector3(0, 1.5f, 0);
-
-        // converte para tela
-        Vector3 screenPos = Camera.main.WorldToScreenPoint(worldPos);
-
-        // aplica no canvas
-        _healthBar.transform.position = screenPos;
+        if (_isPlayerTeam || !WorldManager.Instance.IsLastEnemyBoss) {
+            // Posição do personagem + altura acima do personagem
+            Vector3 worldPos = _visualTransform.position + new Vector3(0, 1.5f, 0);
+            // Converte para tela
+            Vector3 screenPos = Camera.main.WorldToScreenPoint(worldPos);
+            // Aplica no canvas
+            _healthBar.transform.position = screenPos;
+        } else {
+            // Posição fixa no topo da tela para boss
+            Vector3 screenPos = new Vector3(Screen.width / 2f, Screen.height - 50f, 0);
+            _healthBar.transform.position = screenPos;
+        }
     }
 
     private void ShowMessagePopup(string message, Color color) {
@@ -167,7 +210,8 @@ public class CharacterBattle : MonoBehaviour {
         DamagePopup damagePopup = Instantiate(damagePopupPrefab, uiParent.transform).GetComponent<DamagePopup>();
         
         float xOffset = _isPlayerTeam ? 1f : -1f;
-        Vector3 worldPos = transform.position + new Vector3(xOffset, 1f, 0);
+        float yOffset = 2f;
+        Vector3 worldPos = transform.position + new Vector3(xOffset, yOffset, 0);
         Vector3 screenPos = Camera.main.WorldToScreenPoint(worldPos);
         damagePopup.transform.position = screenPos;
 
@@ -202,10 +246,41 @@ public class CharacterBattle : MonoBehaviour {
 
     /* State functions. */
     
-    public void Attack(CharacterBattle targetCharacter, Action onAttackComplete) {
+    private CharacterBase.AttackType ChooseEnemyAttack() {
+        // Player sempre usa Attack1 por padrão
+        if (_isPlayerTeam) {
+            return CharacterBase.AttackType.Attack1;
+        }
+
+        bool isBoss = WorldManager.Instance.IsLastEnemyBoss;
+        float randomValue = UnityEngine.Random.Range(0f, 100f);
+
+        // Boss pode usar ataque 3
+        // if (isBoss && randomValue < _enemyStats.attack3ChancePercent) {
+        //     return CharacterBase.AttackType.Attack3;
+        // }
+
+        // Verifica se usa ataque 2
+        if (randomValue < _enemyStats.attack2ChancePercent + (isBoss ? _enemyStats.attack3ChancePercent : 0f)) {
+            return CharacterBase.AttackType.Attack2;
+        }
+
+        // Ataque padrão
+        return CharacterBase.AttackType.Attack1;
+    }
+
+    public void Attack(CharacterBattle targetCharacter, Action onAttackComplete, CharacterBase.AttackType attackType = CharacterBase.AttackType.Attack1) {
         var originalPosition = GetPosition();
         var targetPosition = targetCharacter.GetPosition();
         var directionToTarget = targetPosition + (originalPosition - targetPosition).normalized * 1.5f;
+
+        // Escolhe qual ataque usar
+        if (!_isPlayerTeam) {
+            attackType = ChooseEnemyAttack();
+        }
+        
+        // Determina se é ataque especial do player
+        bool isPlayerSpecialAttack = _isPlayerTeam && attackType == CharacterBase.AttackType.Attack2;
 
         // Move towards the target.
         MoveToPosition(directionToTarget, () => {
@@ -213,7 +288,17 @@ public class CharacterBattle : MonoBehaviour {
             _state = State.Attacking;
             _characterBase.PlayAttackAnimation(() => {
                 // Attack hit event.
-                targetCharacter.Damage(25);
+                int damageAmount;
+                
+                if (_isPlayerTeam) {
+                    // Usa o sistema de stats do player
+                    damageAmount = WorldManager.Instance.PlayerStats.CalculateDamage(isPlayerSpecialAttack);
+                } else {
+                    // Inimigo: usa stats do inimigo com variação
+                    damageAmount = _enemyStats?.CalculateDamage(attackType) ?? 10;
+                }
+                
+                targetCharacter.Damage(damageAmount);
             }, () => {
                 // Attack finished, moving back to original position.
                 MoveToPosition(originalPosition, () => {
@@ -222,11 +307,12 @@ public class CharacterBattle : MonoBehaviour {
                     _characterBase.PlayIdleAnimation(directionToTarget);
                     onAttackComplete();
                 });
-            });
+            }, attackType
+            );
         });
     }
 
-    public void Dodge() {
+    public void Dodge(Action onDodgeComplete) {
         if (_state == State.Dodging) return; // Avoid multiple overlapping dashes.
         
         // Debug.Log("CharacterBattle is dodging!");
@@ -234,32 +320,37 @@ public class CharacterBattle : MonoBehaviour {
         _invincibleTimer = dodgeWindow;
 
         StartDefendingVisual();
-        
+
         var dodgeDirection = new Vector3(-1f, 0); // Can be adjusted according to the player's side.
-        var dodgeTarget = GetPosition() + dodgeDirection;
+        var dodgeTarget = _originalPosition + dodgeDirection;
 
         _targetPosition = dodgeTarget;
         _isReturningFromDodge = false;
         _dodgeWaitTimer = 0f;
+
+        _onDefenseComplete = onDodgeComplete;
         _state = State.Dodging;
         // characterBase.PlayDodgeAnimation();
     }
 
-    public void StartDefending() {
+    public void StartDefending(Action onParryComplete) {
         // Debug.Log("CharacterBattle is defending!");
-        _state = State.Defending;
         _isInvincible = true;
         _invincibleTimer = parryWindow;
-        
+        _onDefenseComplete = onParryComplete;
         StartDefendingVisual();
+        
+        _state = State.Defending;
         // characterBase.PlayDefendAnimation();
     }
 
     public void StopDefending() {
-        _state = State.Idle;
         _isInvincible = false;
-
         StopDefendingVisual();
+        _onDefenseComplete?.Invoke();
+        _onDefenseComplete = null;
+
+        _state = State.Idle;
         // characterBase.PlayIdleAnimation();
         // Debug.Log("CharacterBattle stopped defending!");
     }
@@ -278,6 +369,12 @@ public class CharacterBattle : MonoBehaviour {
             ShowMessagePopup("Parry!", Color.yellow);
             // Debug.Log("CharacterBattle parried the attack!");
             _isInvincible = false;
+            
+            // Add special charge on successful parry (only for player)
+            if (_isPlayerTeam) {
+                WorldManager.Instance.PlayerStats.AddSpecialCharge();
+                BattleHandler.GetInstance().EnableUIKeys(WorldManager.Instance.PlayerStats.CanUseSpecial());
+            }
             return;
         }
 

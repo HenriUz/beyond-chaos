@@ -10,15 +10,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 6085845944821821659, guid: f188e8ad04f03db31b4b49ce4b09deec, type: 3}
       propertyPath: m_LocalScale.x
-      value: 6.16
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6085845944821821659, guid: f188e8ad04f03db31b4b49ce4b09deec, type: 3}
       propertyPath: m_LocalScale.y
-      value: 6.16
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6085845944821821659, guid: f188e8ad04f03db31b4b49ce4b09deec, type: 3}
       propertyPath: m_LocalScale.z
-      value: 6.16
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6085845944821821659, guid: f188e8ad04f03db31b4b49ce4b09deec, type: 3}
       propertyPath: m_LocalPosition.x
@@ -26,11 +26,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6085845944821821659, guid: f188e8ad04f03db31b4b49ce4b09deec, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.46
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6085845944821821659, guid: f188e8ad04f03db31b4b49ce4b09deec, type: 3}
       propertyPath: m_ConstrainProportionsScale
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7235980937859370436, guid: f188e8ad04f03db31b4b49ce4b09deec, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 6.44
+      objectReference: {fileID: 0}
+    - target: {fileID: 7235980937859370436, guid: f188e8ad04f03db31b4b49ce4b09deec, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 6.44
+      objectReference: {fileID: 0}
+    - target: {fileID: 7235980937859370436, guid: f188e8ad04f03db31b4b49ce4b09deec, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 6.44
       objectReference: {fileID: 0}
     - target: {fileID: 7235980937859370436, guid: f188e8ad04f03db31b4b49ce4b09deec, type: 3}
       propertyPath: m_LocalPosition.x
@@ -72,25 +84,53 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7235980937859370436, guid: f188e8ad04f03db31b4b49ce4b09deec, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8043287013356067439, guid: f188e8ad04f03db31b4b49ce4b09deec, type: 3}
+      propertyPath: maxHealth
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 8043287013356067439, guid: f188e8ad04f03db31b4b49ce4b09deec, type: 3}
+      propertyPath: baseDamage
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 8043287013356067439, guid: f188e8ad04f03db31b4b49ce4b09deec, type: 3}
+      propertyPath: attack1Multiplier
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8043287013356067439, guid: f188e8ad04f03db31b4b49ce4b09deec, type: 3}
+      propertyPath: attack2Multiplier
+      value: 1.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8043287013356067439, guid: f188e8ad04f03db31b4b49ce4b09deec, type: 3}
+      propertyPath: attack3Multiplier
+      value: 1.75
+      objectReference: {fileID: 0}
     - target: {fileID: 8331852827126621853, guid: f188e8ad04f03db31b4b49ce4b09deec, type: 3}
       propertyPath: m_Size.x
-      value: 1.097568
+      value: 0.18373984
       objectReference: {fileID: 0}
     - target: {fileID: 8331852827126621853, guid: f188e8ad04f03db31b4b49ce4b09deec, type: 3}
       propertyPath: m_Size.y
-      value: 0.2694422
+      value: 0.025836438
       objectReference: {fileID: 0}
     - target: {fileID: 8331852827126621853, guid: f188e8ad04f03db31b4b49ce4b09deec, type: 3}
       propertyPath: m_Offset.x
-      value: 0.043967843
+      value: 0.0113311075
       objectReference: {fileID: 0}
     - target: {fileID: 8331852827126621853, guid: f188e8ad04f03db31b4b49ce4b09deec, type: 3}
       propertyPath: m_Offset.y
-      value: 0.12967163
+      value: -0.22809817
       objectReference: {fileID: 0}
     - target: {fileID: 8550407160154697984, guid: f188e8ad04f03db31b4b49ce4b09deec, type: 3}
       propertyPath: m_Name
       value: Enemy 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8741304035867078247, guid: f188e8ad04f03db31b4b49ce4b09deec, type: 3}
+      propertyPath: isBoss
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

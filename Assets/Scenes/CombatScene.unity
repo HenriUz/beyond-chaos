@@ -9754,6 +9754,7 @@ MonoBehaviour:
   pfCharacterBattle: {fileID: 7898928658159354419, guid: 2fa75ce0bcb66cc4f82fbf9b43add076, type: 3}
   worldCanvas: {fileID: 123552285}
   healthBarPrefab: {fileID: 586733401738952186, guid: 3e2dbf94a054e6c468752d85d9cdc285, type: 3}
+  bossHealthBarPrefab: {fileID: 586733401738952186, guid: 1a113648c74008b45a33316c092b547f, type: 3}
   damagePopupPrefab: {fileID: 1069765751147589357, guid: 6f77e9497a8386946bd625e437587376, type: 3}
   playerTurnKeysUI:
   - {fileID: 1948896187}

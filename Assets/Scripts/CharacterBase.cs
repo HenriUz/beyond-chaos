@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 
+
 public class CharacterBase : MonoBehaviour {
 
     private Animator animator;
@@ -9,6 +10,12 @@ public class CharacterBase : MonoBehaviour {
     private SpriteRenderer _spriteRenderer;
     private int defaultSortingOrder;
     private Transform _visualTransform;
+
+    public enum AttackType {
+        Attack1,
+        Attack2,
+        Attack3  // Apenas para boss
+    }
 
     private void Awake() {
         if (animator == null) {
@@ -41,6 +48,12 @@ public class CharacterBase : MonoBehaviour {
         }
     }
 
+    public void SetAttackSpeedMultiplier(float multiplier) {
+        if (animator == null) return;
+
+        animator.SetFloat("AttackMultiplier", multiplier);
+    }
+
     public void PlayIdleAnimation(Vector3 direction) {
         if (animator == null) return;
 
@@ -63,11 +76,23 @@ public class CharacterBase : MonoBehaviour {
         animator.SetTrigger("Damage");
     }
 
-    public void PlayAttackAnimation(Action onAttackHit = null, Action onAttackComplete = null) {
+    public void PlayAttackAnimation(Action onAttackHit = null, Action onAttackComplete = null, AttackType attackType = AttackType.Attack1) {
         if (animator == null) return;
 
         SetSortingOrderTemporarily(defaultSortingOrder + 10);
-        animator.SetTrigger("Attack");
+        
+        switch (attackType) {
+            case AttackType.Attack1:
+                animator.SetTrigger("Attack 1");
+                break;
+            case AttackType.Attack2:
+                animator.SetTrigger("Attack 2");
+                break;
+            case AttackType.Attack3:
+                animator.SetTrigger("Attack 3");
+                break;
+        }
+            
         onAttackHitEvent = onAttackHit;
         onAttackCompleteEvent = onAttackComplete;
     }
@@ -82,12 +107,13 @@ public class CharacterBase : MonoBehaviour {
 
     private void OnAttackHit() {
         onAttackHitEvent?.Invoke();
-        onAttackHitEvent = null;
     }
 
     private void OnAttackComplete() {
         ResetSortingOrder();
         onAttackCompleteEvent?.Invoke();
+
+        onAttackHitEvent = null;
         onAttackCompleteEvent = null;
     }
 }

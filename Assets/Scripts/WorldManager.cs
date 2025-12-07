@@ -7,10 +7,10 @@ using UnityEngine.SceneManagement;
 public class WorldManager : MonoBehaviour {
     public static WorldManager Instance {get; private set;}
 
-    private int OriginalPlayerLife { get; } = 100;
-    public int PlayerLife { get; private set; } = 100;
     private Vector3 OriginalPlayerPosition { get; } = new(5, -7, 0);
     public Vector3 PlayerPosition { get; private set; } = new(5, -7, 0);
+    
+    public PlayerStatsData PlayerStats { get; private set; }
 
     [SerializeField] private List<GameObject> enemies;
     private List<Transform> _enemiesSpawns;
@@ -18,6 +18,8 @@ public class WorldManager : MonoBehaviour {
 
     public GameObject LastEnemyEncountered;
     public RuntimeAnimatorController LastEnemyAnimatorController;
+    public bool IsLastEnemyBoss { get; private set; }
+    public EnemyStatsData LastEnemyStats { get; private set; }
     
     private void Awake() {
         if (Instance != null) {
@@ -32,9 +34,15 @@ public class WorldManager : MonoBehaviour {
             _enemiesAlive.Add(true);
         }
     }
+    
+    public void InitializePlayerStats(PlayerStats stats) {
+        if (PlayerStats == null && stats != null) {
+            PlayerStats = stats.GetData();
+        }
+    }
 
     public void Setup() {
-        PlayerLife = OriginalPlayerLife;
+        PlayerStats.Reset();
         PlayerPosition = OriginalPlayerPosition;
 
         for (var i = 0; i < _enemiesAlive.Count; i++) {
@@ -75,11 +83,14 @@ public class WorldManager : MonoBehaviour {
     
     /* Enemy's functions. */
 
-    public void SetEnemyEncoutered(GameObject enemyInstance) {
+    public void SetEnemyEncoutered(GameObject enemyInstance, bool isBoss, EnemyStats enemyStats) {
         LastEnemyEncountered = enemyInstance;
-        var worldEnemy = enemyInstance.GetComponent<WorldEnemy>();
+        IsLastEnemyBoss = isBoss;
+        LastEnemyStats = enemyStats != null ? enemyStats.GetData() : null;
+
+        WorldEnemy worldEnemy = enemyInstance.GetComponent<WorldEnemy>();
         if (worldEnemy != null) {
-            var animator = worldEnemy.GetComponent<Animator>();
+            Animator animator = worldEnemy.GetComponent<Animator>();
             if (animator != null) {
                 LastEnemyAnimatorController = animator.runtimeAnimatorController;
             }
@@ -95,10 +106,6 @@ public class WorldManager : MonoBehaviour {
     }
     
     /* Player's functions. */
-    
-    public void DamagePlayer(int newPlayerLife) {
-        PlayerLife = newPlayerLife;
-    }
 
     public void UpdatePlayerPosition(Vector3 newPlayerPosition) {
         PlayerPosition = newPlayerPosition;

@@ -133,12 +133,12 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Cyborg_attack_0
+      name: attack_0
       rect:
         serializedVersion: 2
-        x: 3
+        x: 2
         y: 0
-        width: 19
+        width: 31
         height: 48
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
@@ -148,19 +148,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 96e91d0ff9b09964597abee64939165d
-      internalID: 2026971007
+      spriteID: 2005f322915eaf941ab763c4951792d7
+      internalID: -281845993
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Cyborg_attack_1
+      name: attack_2
       rect:
         serializedVersion: 2
-        x: 50
+        x: 49
         y: 0
-        width: 20
+        width: 31
         height: 48
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
@@ -170,19 +170,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 5e6ef09a1e290f04db04379f04ece89d
-      internalID: -2065866855
+      spriteID: e775ae297b912604ca8f9ed9f9cec9c0
+      internalID: -711069214
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Cyborg_attack_2
+      name: attack_4
       rect:
         serializedVersion: 2
         x: 96
         y: 0
-        width: 22
+        width: 31
         height: 48
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
@@ -192,19 +192,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 9af7ca6c7133c024c91dc8e6e228624c
-      internalID: -346369568
+      spriteID: 59da8886311cf4d408f5e8a0b2839844
+      internalID: 1346746873
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Cyborg_attack_3
+      name: attack_5
       rect:
         serializedVersion: 2
-        x: 152
+        x: 151
         y: 0
-        width: 17
+        width: 31
         height: 48
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
@@ -214,19 +214,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 387193e8a900537409da929db29f1580
-      internalID: -1581780130
+      spriteID: 053e08f6197b7944daab1f89b5bb548f
+      internalID: -1655673477
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Cyborg_attack_4
+      name: attack_7
       rect:
         serializedVersion: 2
         x: 200
         y: 0
-        width: 28
+        width: 31
         height: 48
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
@@ -236,19 +236,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 10785c2918755d14d93ada8976648765
-      internalID: 1081007594
+      spriteID: 8a880e7f86feff842bf6c56c9bdee08a
+      internalID: 1306436371
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Cyborg_attack_5
+      name: attack_9
       rect:
         serializedVersion: 2
         x: 248
         y: 0
-        width: 18
+        width: 31
         height: 48
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
@@ -258,41 +258,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 749b8e0685b144440b831a44765f399c
-      internalID: 1751131276
+      spriteID: 672b27adc00aab942bc5f2f959919745
+      internalID: -1138059763
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Cyborg_attack_6
-      rect:
-        serializedVersion: 2
-        x: 270
-        y: 30
-        width: 6
-        height: 5
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: a8b99e785c992a341890133b0d10146f
-      internalID: -1072083838
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Cyborg_attack_7
+      name: attack_10
       rect:
         serializedVersion: 2
         x: 295
         y: 0
-        width: 29
+        width: 31
         height: 48
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
@@ -302,19 +280,19 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 70d54dcffd29d7c41a36da301ced4adf
-      internalID: -1074988592
+      spriteID: e3180404385648e4587a776e3ceedd36
+      internalID: -1473399337
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Cyborg_attack_8
+      name: attack_12
       rect:
         serializedVersion: 2
-        x: 342
+        x: 341
         y: 0
-        width: 18
+        width: 31
         height: 48
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
@@ -324,74 +302,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 6a301cd14d8f624438da619b24a9e853
-      internalID: -1208912641
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Cyborg_attack_9
-      rect:
-        serializedVersion: 2
-        x: 366
-        y: 31
-        width: 6
-        height: 4
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 8a89945a1aa80fb4a9296b622e102cb3
-      internalID: -25674847
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Cyborg_attack_10
-      rect:
-        serializedVersion: 2
-        x: 270
-        y: 13
-        width: 6
-        height: 5
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: c90fe1dd13f9eb144a2a23d98e5981c5
-      internalID: -923048175
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Cyborg_attack_11
-      rect:
-        serializedVersion: 2
-        x: 366
-        y: 13
-        width: 6
-        height: 4
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: e933356e5f3fc004685707ac1dceb3ee
-      internalID: 241135436
+      spriteID: 7cd2938234cea45449206f6fb22de34f
+      internalID: -959287721
       vertices: []
       indices: 
       edges: []
@@ -410,20 +322,21 @@ TextureImporter:
     spriteCustomMetadata:
       entries:
       - key: SpriteEditor.SliceSettings
-        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":36.0,"y":48.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.5},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":0,"pivotUnitMode":0,"slicingType":0,"keepEmptyRects":false,"isAlternate":false}'
+        value: '{"sliceOnImport":false,"gridCellCount":{"x":1.0,"y":1.0},"gridSpriteSize":{"x":28.0,"y":48.0},"gridSpriteOffset":{"x":0.0,"y":0.0},"gridSpritePadding":{"x":0.0,"y":0.0},"pivot":{"x":0.5,"y":0.0},"pivotPixels":{"x":0.0,"y":0.0},"autoSlicingMethod":0,"spriteAlignment":7,"pivotUnitMode":0,"slicingType":1,"keepEmptyRects":false,"isAlternate":false}'
     nameFileIdTable:
-      Cyborg_attack_0: 2026971007
-      Cyborg_attack_1: -2065866855
-      Cyborg_attack_10: -923048175
-      Cyborg_attack_11: 241135436
-      Cyborg_attack_2: -346369568
-      Cyborg_attack_3: -1581780130
-      Cyborg_attack_4: 1081007594
-      Cyborg_attack_5: 1751131276
-      Cyborg_attack_6: -1072083838
-      Cyborg_attack_7: -1074988592
-      Cyborg_attack_8: -1208912641
-      Cyborg_attack_9: -25674847
+      attack_0: -281845993
+      attack_1: -541993774
+      attack_10: -1473399337
+      attack_11: 1585061341
+      attack_12: -959287721
+      attack_2: -711069214
+      attack_3: 1902448935
+      attack_4: 1346746873
+      attack_5: -1655673477
+      attack_6: -33373553
+      attack_7: 1306436371
+      attack_8: -1424845289
+      attack_9: -1138059763
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

@@ -11,12 +11,14 @@ public class BattleHandler : MonoBehaviour {
     
     [SerializeField] private Canvas worldCanvas;
     [SerializeField] private GameObject healthBarPrefab;
+    [SerializeField] private GameObject bossHealthBarPrefab;
     [SerializeField] private GameObject damagePopupPrefab;
     [SerializeField] private List<KeyUI> playerTurnKeysUI;
     [SerializeField] private KeyUI specialKeyUI;
 
     public Canvas WorldCanvas => worldCanvas;
     public GameObject HealthBarPrefab => healthBarPrefab;
+    public GameObject BossHealthBarPrefab => bossHealthBarPrefab;
     public GameObject DamagePopupPrefab => damagePopupPrefab;
     public List<KeyUI> PlayerTurnKeysUI => playerTurnKeysUI;
 
@@ -45,7 +47,7 @@ public class BattleHandler : MonoBehaviour {
         SetActiveCharacterBattle(_playerCharacterBattle);    
         _state = State.WaitingForInput;
 
-        specialKeyUI.SetEnabled(false);
+        specialKeyUI.SetEnabled(WorldManager.Instance.PlayerStats.CanUseSpecial());
     }
 
     private void Update() {
@@ -67,7 +69,14 @@ public class BattleHandler : MonoBehaviour {
         var characterTransform = Instantiate(pfCharacterBattle, position, Quaternion.identity);
         var characterBattle = characterTransform.GetComponent<CharacterBattle>();
 
-        characterBattle.Setup(isPlayerTeam, WorldManager.Instance.PlayerLife);
+        if (isPlayerTeam) {
+            characterBattle.Setup(isPlayerTeam, WorldManager.Instance.PlayerStats.currentHealth);
+        } else {
+            // Usa os stats do inimigo encontrado no mundo
+            EnemyStatsData stats = WorldManager.Instance.LastEnemyStats;
+            characterBattle.Setup(isPlayerTeam, WorldManager.Instance.PlayerStats.currentHealth, stats);
+        }
+        
         return characterBattle;
     }
 
@@ -76,6 +85,10 @@ public class BattleHandler : MonoBehaviour {
         foreach (var keyUI in playerTurnKeysUI) {
             keyUI.SetEnabled(enable);
         }
+    }
+
+    public void EnableSpecialKeyUI(bool enable) {
+        specialKeyUI.SetEnabled(enable);
     }
     
     /* Turn management. */
@@ -102,13 +115,28 @@ public class BattleHandler : MonoBehaviour {
             _enemyCharacterBattle.Attack(_playerCharacterBattle, () => {
                 // Debug.Log("Enemy Attack Finished!");
 
-                SelectNextActiveCharacter();
+                // Check if battle is over after enemy attack
+                if (!IsBattleOver()) {
+                    SelectNextActiveCharacter();
+                }
                 // Debug.Log("State: " + _state);
             });
         } else {
             SetActiveCharacterBattle(_playerCharacterBattle);
             _state = State.WaitingForInput;
         }
+    }
+
+    private void OnDefenseComplete() {
+        if (IsBattleOver()) {
+            return;
+        }
+        if (_activeCharacterBattle == _enemyCharacterBattle) {
+            EnableSpecialKeyUI(WorldManager.Instance.PlayerStats.CanUseSpecial());
+            _state = State.EnemyTurn;
+        }
+
+        return;
     }
 
     private bool IsBattleOver() {
@@ -121,7 +149,7 @@ public class BattleHandler : MonoBehaviour {
         if (!_enemyCharacterBattle.IsDead()) return false;
         
         // Debug.Log("Player Wins!");
-        WorldManager.Instance.DamagePlayer(_playerCharacterBattle.GetLife());
+        WorldManager.Instance.PlayerStats.currentHealth = _playerCharacterBattle.GetLife();
         SceneManager.LoadScene("Scenes/WorldFactory");
         return true;
     }
@@ -132,20 +160,45 @@ public class BattleHandler : MonoBehaviour {
         if (_state != State.WaitingForInput) return;
         
         _state = State.Busy;
-        _playerCharacterBattle.Attack(_enemyCharacterBattle, SelectNextActiveCharacter);
+        _playerCharacterBattle.Attack(_enemyCharacterBattle, () => {
+            // Check if battle is over after player attack
+            if (!IsBattleOver()) {
+                SelectNextActiveCharacter();
+            }
+        });
     }
 
     private void OnParry(InputValue inputValue) {
         if (_state != State.EnemyTurn) return;
         
         _state = State.Busy;
-        _playerCharacterBattle.StartDefending();
+        _playerCharacterBattle.StartDefending(OnDefenseComplete);
     }
 
     private void OnJump() {
+        Debug.Log($"Dodge input received in BattleHandler. {_state}");
         if (_state != State.EnemyTurn) return;
         
         _state = State.Busy;
-        _playerCharacterBattle.Dodge();
+        _playerCharacterBattle.Dodge(OnDefenseComplete);
+    }
+    
+    private void OnSpecial(InputValue inputValue) {
+        if (_state != State.WaitingForInput) return;
+        if (!WorldManager.Instance.PlayerStats.CanUseSpecial()) return;
+        
+        _state = State.Busy;
+        WorldManager.Instance.PlayerStats.UseSpecialCharge();
+        _playerCharacterBattle.Attack(
+            _enemyCharacterBattle,
+            () => {
+                EnableSpecialKeyUI(WorldManager.Instance.PlayerStats.CanUseSpecial());
+                // Check if battle is over after special attack
+                if (!IsBattleOver()) {
+                    SelectNextActiveCharacter();
+                }
+            },
+            CharacterBase.AttackType.Attack2
+        );
     }
 }

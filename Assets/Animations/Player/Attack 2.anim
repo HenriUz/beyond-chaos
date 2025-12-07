@@ -6,7 +6,7 @@ AnimationClip:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Attack
+  m_Name: Attack 2
   serializedVersion: 7
   m_Legacy: 0
   m_Compressed: 0
@@ -33,8 +33,10 @@ AnimationClip:
     - time: 0.41666666
       value: {fileID: -1138059763, guid: 9caeb16e05ab1b14ca663fc78b033965, type: 3}
     - time: 0.5
-      value: {fileID: -711069214, guid: 9caeb16e05ab1b14ca663fc78b033965, type: 3}
+      value: {fileID: -1473399337, guid: 9caeb16e05ab1b14ca663fc78b033965, type: 3}
     - time: 0.5833333
+      value: {fileID: -959287721, guid: 9caeb16e05ab1b14ca663fc78b033965, type: 3}
+    - time: 0.6666667
       value: {fileID: -281845993, guid: 9caeb16e05ab1b14ca663fc78b033965, type: 3}
     attribute: m_Sprite
     path: Sprite
@@ -64,14 +66,15 @@ AnimationClip:
     - {fileID: -1655673477, guid: 9caeb16e05ab1b14ca663fc78b033965, type: 3}
     - {fileID: 1306436371, guid: 9caeb16e05ab1b14ca663fc78b033965, type: 3}
     - {fileID: -1138059763, guid: 9caeb16e05ab1b14ca663fc78b033965, type: 3}
-    - {fileID: -711069214, guid: 9caeb16e05ab1b14ca663fc78b033965, type: 3}
+    - {fileID: -1473399337, guid: 9caeb16e05ab1b14ca663fc78b033965, type: 3}
+    - {fileID: -959287721, guid: 9caeb16e05ab1b14ca663fc78b033965, type: 3}
     - {fileID: -281845993, guid: 9caeb16e05ab1b14ca663fc78b033965, type: 3}
   m_AnimationClipSettings:
     serializedVersion: 2
     m_AdditiveReferencePoseClip: {fileID: 0}
     m_AdditiveReferencePoseTime: 0
     m_StartTime: 0
-    m_StopTime: 0.6666666
+    m_StopTime: 0.75
     m_OrientationOffsetY: 0
     m_Level: 0
     m_CycleOffset: 0
@@ -98,7 +101,14 @@ AnimationClip:
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
-  - time: 0.5833333
+  - time: 0.5
+    functionName: OnAttackHit
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 0.6666667
     functionName: OnAttackComplete
     data: 
     objectReferenceParameter: {fileID: 0}

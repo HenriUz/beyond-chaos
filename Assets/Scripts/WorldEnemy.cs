@@ -3,11 +3,14 @@ using UnityEngine.SceneManagement;
 
 public class WorldEnemy : MonoBehaviour {
     [SerializeField] private int index;
+    [SerializeField] private bool isBoss;
 
     private Rigidbody2D _rigidbody;
     private Vector3 _position;
+    private SpriteRenderer _spriteRenderer;
     private const float Range = 4.5f;
     private const float Speed = 1.2f;
+    private EnemyStats _enemyStats;
 
     private Animator _animator;
     private readonly int isWalking = Animator.StringToHash("isRunning");
@@ -37,12 +40,14 @@ public class WorldEnemy : MonoBehaviour {
     }
     
     private void FlipObject() {
-        transform.localScale = new Vector3(Mathf.Sign(_rigidbody.linearVelocityX), transform.localScale.y, transform.localScale.z);
+        _spriteRenderer.transform.localScale = new Vector3(Mathf.Sign(_rigidbody.linearVelocityX), _spriteRenderer.transform.localScale.y, _spriteRenderer.transform.localScale.z);
     }
 
     private void Awake() {
         _animator = GetComponent<Animator>();
         _rigidbody = GetComponent<Rigidbody2D>();
+        _spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+        _enemyStats = GetComponent<EnemyStats>();
         _position = transform.position;
     }
 
@@ -90,7 +95,7 @@ public class WorldEnemy : MonoBehaviour {
     private void OnCollisionEnter2D(Collision2D other) {
         if (!other.gameObject.CompareTag("Player")) return;
         WorldManager.Instance.SetEnemyDead(index);
-        WorldManager.Instance.SetEnemyEncoutered(gameObject);
+        WorldManager.Instance.SetEnemyEncoutered(gameObject, isBoss, _enemyStats);
         SceneManager.LoadScene("Scenes/CombatScene");
     }
 }
