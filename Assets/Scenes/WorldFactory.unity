@@ -1597,6 +1597,7 @@ GameObject:
   - component: {fileID: 1041495903}
   - component: {fileID: 1041495902}
   - component: {fileID: 1041495907}
+  - component: {fileID: 1041495908}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -1616,7 +1617,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b6f519d8613c4d8ca6c94fb960bfa0c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WorldPlayer
-  speed: 1000
+  speed: 600
 --- !u!114 &1041495903
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1758,6 +1759,26 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &1041495908
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1041495901}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b429bb599f83da743a0452dccb9bd90a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerStats
+  maxHealth: 150
+  maxSpecialCharges: 3
+  currentHealth: 150
+  specialCharges: 0
+  baseDamage: 15
+  normalAttackMultiplier: 1.2
+  specialAttackMultiplier: 1.1
+  damageVariationMax: 1.3
 --- !u!1 &1187961218
 GameObject:
   m_ObjectHideFlags: 0
