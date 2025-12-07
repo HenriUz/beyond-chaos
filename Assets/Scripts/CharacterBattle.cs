@@ -70,7 +70,7 @@ public class CharacterBattle : MonoBehaviour {
                     step *= _enemyStats.attackSpeedMultiplier;
                 }
 
-                transform.position = Vector3.MoveTowards(GetPosition(), _targetPosition, Time.deltaTime * speed);
+                transform.position = Vector3.MoveTowards(GetPosition(), _targetPosition, step);
 
                 const float distanceAllowed = 1.5f;
                 if (Vector3.Distance(GetPosition(), _targetPosition) < distanceAllowed) {
@@ -158,6 +158,11 @@ public class CharacterBattle : MonoBehaviour {
         // Register health changed event BEFORE creating health bar
         _healthSystem.OnHealthChanged += OnHealthChanged;
 
+        // Apply initial attack speed multiplier for boss
+        if (!_isPlayerTeam && WorldManager.Instance.IsLastEnemyBoss && _enemyStats != null) {
+            _characterBase.SetAttackSpeedMultiplier(_enemyStats.attackSpeedMultiplier);
+        }
+
         GameObject healthBarPrefab;
         if (!_isPlayerTeam && WorldManager.Instance.IsLastEnemyBoss) {
             healthBarPrefab = BattleHandler.GetInstance().BossHealthBarPrefab;
@@ -179,8 +184,8 @@ public class CharacterBattle : MonoBehaviour {
 
         if (!_isPlayerTeam && WorldManager.Instance.IsLastEnemyBoss) {
             // Enter frenzy mode if health below 30%
-            if (normalizedHealth <= 0.3f) {
-                _characterBase.SetAttackSpeedMultiplier(_enemyStats.attackSpeedMultiplier);
+            if (normalizedHealth <= 0.3f && _enemyStats != null) {
+                _characterBase.SetAttackSpeedMultiplier(_enemyStats.frenzySpeedMultiplier);
             }
 
         }
@@ -253,15 +258,18 @@ public class CharacterBattle : MonoBehaviour {
         }
 
         bool isBoss = WorldManager.Instance.IsLastEnemyBoss;
-        float randomValue = UnityEngine.Random.Range(0f, 100f);
 
         // Boss pode usar ataque 3
-        // if (isBoss && randomValue < _enemyStats.attack3ChancePercent) {
-        //     return CharacterBase.AttackType.Attack3;
-        // }
+        if (isBoss) {
+            float randomValue3 = UnityEngine.Random.Range(0f, 100f);
+            if (randomValue3 < _enemyStats.attack3ChancePercent) {
+                return CharacterBase.AttackType.Attack3;
+            }
+        }
 
         // Verifica se usa ataque 2
-        if (randomValue < _enemyStats.attack2ChancePercent + (isBoss ? _enemyStats.attack3ChancePercent : 0f)) {
+        float randomValue2 = UnityEngine.Random.Range(0f, 100f);
+        if (randomValue2 < _enemyStats.attack2ChancePercent) {
             return CharacterBase.AttackType.Attack2;
         }
 
@@ -382,12 +390,14 @@ public class CharacterBattle : MonoBehaviour {
         _characterBase.PlayDamageAnimation();
         _healthSystem.TakeDamage(damageAmount);
         ShowMessagePopup(damageAmount.ToString(), Color.red);
-        // Debug.Log("CharacterBattle took " + damageAmount + " damage!");
+        
+        Debug.Log($"{(_isPlayerTeam ? "Player" : "Enemy")} took {damageAmount} damage! Current health: {_healthSystem.currentHealth}/{_healthSystem.maxHealth}");
 
-        if (_healthSystem.currentHealth > 0) return;
-
-        _state = State.Dead;
-        // characterBase.PlayDeathAnimation();
+        if (_healthSystem.currentHealth <= 0) {
+            _state = State.Dead;
+            Debug.Log($"{(_isPlayerTeam ? "Player" : "Enemy")} died!");
+            // characterBase.PlayDeathAnimation();
+        }
     }
 
     public bool IsDead() {

@@ -23,6 +23,13 @@ public class Health {
     }
 
     public float GetHealthNormalized() {
-        return (float)currentHealth / maxHealth;
+        if (currentHealth <= 0) return 0f;
+        if (maxHealth <= 0) return 0f;
+        
+        float normalized = (float)currentHealth / maxHealth;
+        // Se a vida estiver muito baixa (menos de 1%), considerar como morto
+        if (normalized < 0.01f) return 0f;
+        
+        return normalized;
     }
 }

@@ -4,6 +4,7 @@ public class EnemyStatsData {
     public int maxHealth = 100;
     public int baseDamage = 10;
     public float attackSpeedMultiplier = 1f;
+    public float frenzySpeedMultiplier = 1.5f;
     public float attack2ChancePercent = 30f;
     public float attack3ChancePercent = 20f;
     public float damageVariationMax = 1.15f;
@@ -28,6 +29,7 @@ public class EnemyStats : MonoBehaviour {
     public int maxHealth = 100;
     public int baseDamage = 10;
     public float attackSpeedMultiplier = 1f;
+    public float frenzySpeedMultiplier = 1.5f;
     public float attack2ChancePercent = 30f;
     public float attack3ChancePercent = 20f;
     public float damageVariationMax = 1.15f;
@@ -40,6 +42,7 @@ public class EnemyStats : MonoBehaviour {
             maxHealth = this.maxHealth,
             baseDamage = this.baseDamage,
             attackSpeedMultiplier = this.attackSpeedMultiplier,
+            frenzySpeedMultiplier = this.frenzySpeedMultiplier,
             attack2ChancePercent = this.attack2ChancePercent,
             attack3ChancePercent = this.attack3ChancePercent,
             damageVariationMax = this.damageVariationMax,
