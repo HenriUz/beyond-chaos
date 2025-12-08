@@ -42,7 +42,9 @@ public class WorldManager : MonoBehaviour {
     }
 
     public void Setup() {
-        PlayerStats.Reset();
+        if (PlayerStats != null) {
+            PlayerStats.Reset();
+        }
         PlayerPosition = OriginalPlayerPosition;
 
         for (var i = 0; i < _enemiesAlive.Count; i++) {

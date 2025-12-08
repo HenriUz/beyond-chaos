@@ -11,8 +11,18 @@ namespace UI {
             SceneManager.LoadScene("Scenes/WorldFactory");
         }
 
+        public void ReturnMainMenu()
+        {
+            SceneManager.LoadScene("Scenes/MainMenu");
+        }
+
         public void Exit() {
             Application.Quit();
+        }
+
+        public void OpenConfigs()
+        {
+            SceneManager.LoadScene("Scenes/Configs");
         }
     }
 }

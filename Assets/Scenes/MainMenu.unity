@@ -302,6 +302,8 @@ MonoBehaviour:
   - {fileID: 4731932107179191702, guid: d31d3344d03a1554ebae68c11d8bc81a, type: 3}
   - {fileID: 5324463046834930275, guid: b0ea19ae3816e56daa2309aa62551b7d, type: 3}
   - {fileID: 4469758264139064313, guid: 874965d560e1f0579b0972a1eb5d42e3, type: 3}
+  LastEnemyEncountered: {fileID: 0}
+  LastEnemyAnimatorController: {fileID: 0}
 --- !u!4 &162215087
 Transform:
   m_ObjectHideFlags: 0
@@ -3191,13 +3193,13 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 309008453}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: 
+      - m_Target: {fileID: 309008454}
+        m_TargetAssemblyTypeName: UI.MainUIController, Assembly-CSharp
+        m_MethodName: OpenConfigs
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 

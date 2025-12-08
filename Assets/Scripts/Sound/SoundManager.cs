@@ -8,6 +8,8 @@ namespace Sound {
         private static AudioSource _voiceAudioSource;
         private static SoundLibrary _soundLibrary;
         
+        public static float CurrentVolume => _backgroundAudioSource != null ? _backgroundAudioSource.volume : 0f;
+        
         private void Awake() {
             if (Instance != null) {
                 Destroy(gameObject);
